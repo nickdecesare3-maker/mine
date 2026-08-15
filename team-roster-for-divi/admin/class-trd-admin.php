@@ -41,6 +41,7 @@ class Trd_Admin {
 	 */
 	private function __construct() {
 		add_action( 'admin_notices', array( $this, 'maybe_render_getting_started' ) );
+		add_action( 'admin_notices', array( $this, 'render_grid_shortcode_hint' ) );
 		add_action( 'wp_ajax_' . self::DISMISS_ACTION, array( $this, 'handle_dismiss' ) );
 	}
 
@@ -66,7 +67,16 @@ class Trd_Admin {
 			<ol>
 				<li><?php esc_html_e( 'Add your team members under Team Members → Add New (photo, job title, company, contact info, and bio).', 'team-roster-for-divi' ); ?></li>
 				<li><?php esc_html_e( 'Drag rows in the Team Members list to reorder, or assign each person to a Group (e.g. Leadership, Sales, Engineering).', 'team-roster-for-divi' ); ?></li>
-				<li><?php esc_html_e( 'Open a page in the Divi Builder and drag the "Team Grid" module onto it to display your whole team automatically, or use "Team Member Card" for individual entries.', 'team-roster-for-divi' ); ?></li>
+				<li>
+					<?php
+					printf(
+						/* translators: %s: [team_grid] shortcode, shown as inline code. */
+						esc_html__( 'In Divi (4 or 5), add a Text or Code module to your page and paste the %s shortcode to display the whole team automatically -- or paste the %s shortcode from an individual Team Member\'s edit screen for a single card.', 'team-roster-for-divi' ),
+						'<code>[team_grid]</code>',
+						'<code>[team_member_card id="…"]</code>'
+					);
+					?>
+				</li>
 			</ol>
 		</div>
 		<script>
@@ -84,6 +94,32 @@ class Trd_Admin {
 			} );
 		} )();
 		</script>
+		<?php
+	}
+
+	/**
+	 * Small, permanent (non-dismissible) reminder of the `[team_grid]`
+	 * shortcode above the Team Members list, since there's no visual
+	 * builder module to drag in -- shortcodes are the whole interface.
+	 */
+	public function render_grid_shortcode_hint() {
+		$screen = get_current_screen();
+
+		if ( ! $screen || 'edit-' . Trd_Post_Type::POST_TYPE !== $screen->id ) {
+			return;
+		}
+		?>
+		<div class="notice notice-info trd-shortcode-hint">
+			<p>
+				<?php
+				printf(
+					/* translators: %s: [team_grid] shortcode, shown as inline code. */
+					esc_html__( 'Paste %s into a Text or Code module in Divi (4 or 5), or into any post/page content, to display this whole roster.', 'team-roster-for-divi' ),
+					'<code>[team_grid]</code>'
+				);
+				?>
+			</p>
+		</div>
 		<?php
 	}
 

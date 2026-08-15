@@ -1,9 +1,9 @@
 <?php
 /**
- * Server-side rendering for the `team-roster-for-divi/team-grid` block:
- * queries Team Member posts (respecting manual drag order), optionally
- * splits them into per-group sections, and lays them out in a responsive
- * CSS grid of Team Member Cards.
+ * Rendering for the `[team_grid]` shortcode: queries Team Member posts
+ * (respecting manual drag order), optionally splits them into per-group
+ * sections, and lays them out in a responsive CSS grid of Team Member
+ * Cards.
  *
  * @package TeamRosterForDivi
  */
@@ -18,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Trd_Team_Grid_Render {
 
 	/**
-	 * Render the block.
+	 * Render the grid.
 	 *
-	 * @param array<string,mixed> $attributes Block attributes.
+	 * @param array<string,mixed> $attributes Grid options, see Trd_Shortcodes::render_grid().
 	 * @return string
 	 */
 	public static function render( $attributes ) {
@@ -78,7 +78,7 @@ class Trd_Team_Grid_Render {
 				}
 			}
 		</style>
-		<div id="<?php echo esc_attr( $wrapper_id ); ?>" class="trd-team-grid-block"<?php echo $style_vars ? ' style="' . esc_attr( $style_vars ) . '"' : ''; ?>>
+		<div id="<?php echo esc_attr( $wrapper_id ); ?>" class="trd-team-grid"<?php echo $style_vars ? ' style="' . esc_attr( $style_vars ) . '"' : ''; ?>>
 			<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped sub-templates. ?>
 		</div>
 		<?php
@@ -88,7 +88,7 @@ class Trd_Team_Grid_Render {
 	/**
 	 * Build the `style="--trd-card-...` attribute value for card overrides.
 	 *
-	 * @param array<string,mixed> $attributes Block attributes.
+	 * @param array<string,mixed> $attributes Grid attributes.
 	 * @return string
 	 */
 	private static function inline_style_vars( $attributes ) {
@@ -110,7 +110,7 @@ class Trd_Team_Grid_Render {
 	/**
 	 * One flat grid of every matching team member.
 	 *
-	 * @param array<string,mixed> $attributes Block attributes.
+	 * @param array<string,mixed> $attributes Grid attributes.
 	 * @param string               $wrapper_id Unique wrapper id (unused here, kept for symmetry).
 	 * @return string
 	 */
@@ -127,7 +127,7 @@ class Trd_Team_Grid_Render {
 	/**
 	 * One labeled section per group, each containing its own grid.
 	 *
-	 * @param array<string,mixed> $attributes Block attributes.
+	 * @param array<string,mixed> $attributes Grid attributes.
 	 * @param string               $wrapper_id Unique wrapper id.
 	 * @return string
 	 */
@@ -183,7 +183,7 @@ class Trd_Team_Grid_Render {
 	/**
 	 * Run the WP_Query for either the flat grid or a single group's section.
 	 *
-	 * @param array<string,mixed> $attributes    Block attributes.
+	 * @param array<string,mixed> $attributes    Grid attributes.
 	 * @param int                  $term_id       Optional single group term id.
 	 * @param bool                 $only_ungrouped Only return posts with no group term at all.
 	 * @return WP_Post[]
@@ -253,7 +253,7 @@ class Trd_Team_Grid_Render {
 	 * Render each queried post as a card.
 	 *
 	 * @param WP_Post[]            $posts      Team member posts.
-	 * @param array<string,mixed> $attributes Block attributes.
+	 * @param array<string,mixed> $attributes Grid attributes.
 	 * @return string
 	 */
 	private static function cards_html( $posts, $attributes ) {

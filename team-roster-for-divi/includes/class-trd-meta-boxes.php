@@ -45,7 +45,7 @@ class Trd_Meta_Boxes {
 	}
 
 	/**
-	 * Register the meta box on the Team Member edit screen.
+	 * Register the meta boxes on the Team Member edit screen.
 	 */
 	public function add_meta_box() {
 		add_meta_box(
@@ -56,6 +56,40 @@ class Trd_Meta_Boxes {
 			'normal',
 			'high'
 		);
+
+		add_meta_box(
+			'trd_team_member_shortcode',
+			__( 'Shortcode', 'team-roster-for-divi' ),
+			array( $this, 'render_shortcode_box' ),
+			Trd_Post_Type::POST_TYPE,
+			'side',
+			'default'
+		);
+	}
+
+	/**
+	 * Render a ready-to-copy `[team_member_card]` shortcode for this post,
+	 * so users don't need to look up the post ID themselves to place it
+	 * in a Divi Text/Code module.
+	 *
+	 * @param WP_Post $post Current post object.
+	 */
+	public function render_shortcode_box( $post ) {
+		$shortcode = sprintf( '[team_member_card id="%d"]', $post->ID );
+		?>
+		<p>
+			<input
+				type="text"
+				readonly="readonly"
+				class="widefat code"
+				value="<?php echo esc_attr( $shortcode ); ?>"
+				onclick="this.select();"
+			/>
+		</p>
+		<p class="description">
+			<?php esc_html_e( 'Click to select, then copy this into a Text/Code module in Divi (or anywhere shortcodes render) to show this person\'s card.', 'team-roster-for-divi' ); ?>
+		</p>
+		<?php
 	}
 
 	/**

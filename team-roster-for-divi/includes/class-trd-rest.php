@@ -1,7 +1,7 @@
 <?php
 /**
- * Exposes Team Member custom fields on the REST API so Divi 5's
- * block/React editor (or any other REST consumer) can read them.
+ * Exposes Team Member custom fields on the REST API so any REST consumer
+ * can read them.
  *
  * @package TeamRosterForDivi
  */

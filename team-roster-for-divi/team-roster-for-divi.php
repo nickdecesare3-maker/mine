@@ -2,9 +2,9 @@
 /**
  * Plugin Name:       Team Roster for Divi
  * Plugin URI:        https://github.com/nickdecesare3-maker/mine
- * Description:       Adds a "Team Member" post type plus native Divi 5 blocks (Team Member Card and Team Grid) so you can build a Team page in minutes.
+ * Description:       Adds a "Team Member" post type plus [team_member_card] and [team_grid] shortcodes -- drop them into a Text/Code module in Divi 4 or Divi 5 -- so you can build a Team page in minutes.
  * Version:           1.0.0
- * Requires at least: 6.6
+ * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Team Roster for Divi
  * License:           GPL v2 or later
@@ -40,7 +40,7 @@ require_once TRD_PLUGIN_DIR . 'includes/class-trd-rest.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-admin-list.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-reorder.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-team-grid-render.php';
-require_once TRD_PLUGIN_DIR . 'includes/class-trd-blocks.php';
+require_once TRD_PLUGIN_DIR . 'includes/class-trd-shortcodes.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-activation.php';
 require_once TRD_PLUGIN_DIR . 'admin/class-trd-admin.php';
 
@@ -57,7 +57,7 @@ function trd_bootstrap() {
 	Trd_Rest::instance();
 	Trd_Admin_List::instance();
 	Trd_Reorder::instance();
-	Trd_Blocks::instance();
+	Trd_Shortcodes::instance();
 	Trd_Admin::instance();
 }
 add_action( 'plugins_loaded', 'trd_bootstrap' );

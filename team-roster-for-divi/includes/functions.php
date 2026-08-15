@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Meta keys used by the Team Member post type, centralised so every file
- * (meta boxes, REST, blocks, render templates) reads/writes the same keys.
+ * (meta boxes, REST, shortcodes, render templates) reads/writes the same keys.
  *
  * @return array<string,string> Map of field id => meta key.
  */
@@ -26,33 +26,8 @@ function trd_meta_keys() {
 }
 
 /**
- * Detect whether Divi (theme or Divi Builder plugin) is active, and
- * whether it is running Divi 5's block-based builder framework.
- *
- * Divi 5 rebuilt the Visual Builder on top of the WordPress block editor,
- * so this plugin's modules are implemented as native Gutenberg blocks --
- * that works inside Divi 5's builder, inside Divi 4 (blocks can still be
- * placed via the WP block editor / "Text" module fallback there), and in
- * plain WordPress with no Divi at all. This helper only powers the admin
- * notice, it never gates block registration.
- *
- * @return array{active: bool, version: string, is_divi5: bool}
- */
-function trd_get_divi_status() {
-	$active   = defined( 'ET_BUILDER_VERSION' ) || defined( 'ET_CORE_VERSION' ) || function_exists( 'et_setup_theme' );
-	$version  = defined( 'ET_BUILDER_VERSION' ) ? ET_BUILDER_VERSION : '';
-	$is_divi5 = class_exists( '\ET\Builder\Framework\Utility\Conditions' ) || ( $version && version_compare( $version, '5.0', '>=' ) );
-
-	return array(
-		'active'   => (bool) $active,
-		'version'  => (string) $version,
-		'is_divi5' => (bool) $is_divi5,
-	);
-}
-
-/**
  * Gather every displayable field for a Team Member post into one array.
- * Used by both blocks (manual-select "from post" mode) and the REST API.
+ * Used by both shortcodes (manual-select "from post" mode) and the REST API.
  *
  * @param int $post_id Team Member post ID.
  * @return array<string,mixed>|null
@@ -101,7 +76,7 @@ function trd_phone_href( $phone ) {
 /**
  * Render one Team Member Card (photo, name, title, company, contact info,
  * Read Bio button) plus its paired bio modal markup. Shared by the single
- * Team Member Card block and the Team Grid block so both stay in sync.
+ * `[team_member_card]` and `[team_grid]` shortcodes so both stay in sync.
  *
  * @param array<string,mixed> $member      Data shaped like trd_get_team_member_data().
  * @param array<string,mixed> $args {
