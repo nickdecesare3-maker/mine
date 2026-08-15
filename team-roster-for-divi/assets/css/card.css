@@ -1,0 +1,135 @@
+/**
+ * Team Member Card layout. Shared by the Team Member Card block and every
+ * card rendered inside the Team Grid block, on both the front end and in
+ * the block editor preview.
+ */
+
+.trd-card {
+	--trd-card-bg: #ffffff;
+	--trd-card-color: #1e1e1e;
+	--trd-card-radius: 8px;
+
+	display: flex;
+	flex-direction: column;
+	background: var( --trd-card-bg );
+	color: var( --trd-card-color );
+	border-radius: var( --trd-card-radius );
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba( 0, 0, 0, 0.1 );
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.trd-card__photo {
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	background: #e2e2e2;
+}
+
+.trd-card__photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.trd-card__photo-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2em;
+	font-weight: 600;
+	color: #757575;
+	background: #e2e2e2;
+}
+
+.trd-card__body {
+	padding: 1.25em;
+	display: flex;
+	flex-direction: column;
+	gap: 0.4em;
+	flex-grow: 1;
+}
+
+.trd-card__name {
+	margin: 0;
+	font-size: 1.15em;
+	line-height: 1.3;
+}
+
+.trd-card__meta {
+	margin: 0;
+	opacity: 0.75;
+	font-size: 0.95em;
+}
+
+.trd-card__contact {
+	list-style: none;
+	margin: 0.4em 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.2em;
+	font-size: 0.9em;
+}
+
+.trd-card__contact a {
+	color: inherit;
+	text-decoration: underline;
+	word-break: break-word;
+}
+
+.trd-card__bio-btn {
+	margin-top: auto;
+	align-self: flex-start;
+	padding: 0.55em 1.2em;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	background: transparent;
+	color: inherit;
+	font-size: 0.9em;
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.trd-card__bio-btn:hover,
+.trd-card__bio-btn:focus-visible {
+	background: currentColor;
+}
+
+.trd-card__bio-btn:hover::after,
+.trd-card__bio-btn:focus-visible::after {
+	content: "";
+}
+
+/* Simulate a filled-button hover without hard-coding a second color. */
+.trd-card__bio-btn:hover,
+.trd-card__bio-btn:focus-visible {
+	color: var( --trd-card-bg );
+	background-color: var( --trd-card-color );
+}
+
+.trd-grid {
+	display: grid;
+	gap: 1.5em;
+}
+
+.trd-grid-section {
+	margin-bottom: 2.5em;
+}
+
+.trd-grid-section:last-child {
+	margin-bottom: 0;
+}
+
+.trd-grid-section__title {
+	margin: 0 0 1em;
+}
+
+.trd-card-placeholder {
+	padding: 1em;
+	border: 1px dashed #ccc;
+	color: #757575;
+}

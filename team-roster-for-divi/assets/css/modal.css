@@ -1,0 +1,94 @@
+/**
+ * Bio modal (lightbox-style overlay). Scoped under .trd-modal so it can't
+ * clash with Divi 5's own dialogs or another plugin's modal styles.
+ */
+
+.trd-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.5em;
+}
+
+.trd-modal[hidden] {
+	display: none;
+}
+
+.trd-modal__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba( 0, 0, 0, 0.6 );
+}
+
+.trd-modal__dialog {
+	position: relative;
+	z-index: 1;
+	background: #fff;
+	color: #1e1e1e;
+	max-width: 640px;
+	width: 100%;
+	max-height: 85vh;
+	overflow-y: auto;
+	border-radius: 8px;
+	padding: 2.5em 2em 2em;
+	box-shadow: 0 10px 40px rgba( 0, 0, 0, 0.25 );
+}
+
+.trd-modal__dialog:focus {
+	outline: 2px solid #0a63c2;
+	outline-offset: 2px;
+}
+
+.trd-modal__close {
+	position: absolute;
+	top: 0.75em;
+	right: 0.75em;
+	width: 2.2em;
+	height: 2.2em;
+	border: none;
+	border-radius: 50%;
+	background: #f0f0f0;
+	color: #1e1e1e;
+	font-size: 1.3em;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.trd-modal__close:hover,
+.trd-modal__close:focus-visible {
+	background: #ddd;
+}
+
+.trd-modal__photo {
+	display: block;
+	width: 96px;
+	height: 96px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin: 0 0 1em;
+}
+
+.trd-modal__name {
+	margin: 0 0 0.2em;
+}
+
+.trd-modal__meta {
+	margin: 0 0 1.2em;
+	opacity: 0.75;
+}
+
+.trd-modal__bio {
+	line-height: 1.6;
+}
+
+.trd-modal__bio img {
+	max-width: 100%;
+	height: auto;
+}
+
+body.trd-modal-open {
+	overflow: hidden;
+}

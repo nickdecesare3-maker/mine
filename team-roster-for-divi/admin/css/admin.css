@@ -1,0 +1,48 @@
+/**
+ * Admin styles: Team Members list table (drag handle + reorder status)
+ * and the Getting Started notice.
+ */
+
+.post-type-trd_team_member #the-list tr {
+	cursor: move;
+}
+
+.post-type-trd_team_member #the-list tr.trd-dragging {
+	background: #f0f6fc;
+	box-shadow: 0 1px 4px rgba( 0, 0, 0, 0.15 );
+}
+
+.trd-reorder-status {
+	display: inline-block;
+	margin: 8px 0;
+	font-style: italic;
+	color: #646970;
+}
+
+.trd-reorder-status.is-saved {
+	color: #008a20;
+	font-weight: 600;
+}
+
+.trd-reorder-status.is-error {
+	color: #d63638;
+	font-weight: 600;
+}
+
+.trd-getting-started {
+	border-left-color: #7f54b3;
+	padding: 16px 20px;
+}
+
+.trd-getting-started h2 {
+	margin-top: 0;
+}
+
+.trd-getting-started ol {
+	margin-left: 1.2em;
+	list-style: decimal;
+}
+
+.trd-meta-box-table th {
+	width: 160px;
+}

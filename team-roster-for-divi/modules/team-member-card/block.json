@@ -1,0 +1,54 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "team-roster-for-divi/team-member-card",
+	"title": "Team Member Card",
+	"category": "widgets",
+	"icon": "id-alt",
+	"description": "A single team member card: photo, name, job title, company, contact info and a Read Bio button that opens an accessible modal.",
+	"keywords": [ "team", "staff", "bio", "divi", "employee" ],
+	"textdomain": "team-roster-for-divi",
+	"attributes": {
+		"mode": { "type": "string", "default": "select" },
+		"teamMemberId": { "type": "number", "default": 0 },
+		"manualPhotoId": { "type": "number", "default": 0 },
+		"manualPhotoUrl": { "type": "string", "default": "" },
+		"manualName": { "type": "string", "default": "" },
+		"manualJobTitle": { "type": "string", "default": "" },
+		"manualCompany": { "type": "string", "default": "" },
+		"manualEmail": { "type": "string", "default": "" },
+		"manualPhone": { "type": "string", "default": "" },
+		"manualLink": { "type": "string", "default": "" },
+		"manualBio": { "type": "string", "default": "" },
+		"buttonLabel": { "type": "string", "default": "Read Bio" }
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"blockGap": false
+		},
+		"border": {
+			"color": true,
+			"radius": true,
+			"width": true,
+			"style": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"editorScript": "file:./build/index.js",
+	"style": "file:../../assets/css/card.css",
+	"editorStyle": "file:./editor.css",
+	"viewScript": "file:../../assets/js/modal.js",
+	"viewStyle": "file:../../assets/css/modal.css"
+}
