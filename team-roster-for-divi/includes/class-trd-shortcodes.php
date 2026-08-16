@@ -33,6 +33,14 @@ class Trd_Shortcodes {
 	private static $instance = null;
 
 	/**
+	 * Whether the Display Settings typography CSS has already been
+	 * attached to the `trd-card` stylesheet on this request.
+	 *
+	 * @var bool
+	 */
+	private $inline_css_added = false;
+
+	/**
 	 * Get the singleton instance.
 	 *
 	 * @return Trd_Shortcodes
@@ -69,7 +77,12 @@ class Trd_Shortcodes {
 	 */
 	public function register_assets() {
 		wp_register_style( 'trd-card', TRD_PLUGIN_URL . 'assets/css/card.css', array(), TRD_VERSION );
-		wp_register_style( 'trd-modal', TRD_PLUGIN_URL . 'assets/css/modal.css', array(), TRD_VERSION );
+		// Depends on trd-card so it always prints after it: modal.css and
+		// card.css both style .trd-modal__* selectors' shared classes, and
+		// the Display Settings typography CSS (attached below, to
+		// whichever handle prints last) needs to win the cascade over both
+		// base stylesheets regardless of enqueue order elsewhere.
+		wp_register_style( 'trd-modal', TRD_PLUGIN_URL . 'assets/css/modal.css', array( 'trd-card' ), TRD_VERSION );
 		wp_register_script( 'trd-modal', TRD_PLUGIN_URL . 'assets/js/modal.js', array(), TRD_VERSION, true );
 	}
 
@@ -81,6 +94,19 @@ class Trd_Shortcodes {
 		wp_enqueue_style( 'trd-card' );
 		wp_enqueue_style( 'trd-modal' );
 		wp_enqueue_script( 'trd-modal' );
+
+		if ( ! $this->inline_css_added ) {
+			$css = Trd_Settings::generate_css();
+			if ( '' !== $css ) {
+				// Attached to trd-modal (not trd-card): trd-modal is
+				// registered as depending on trd-card, so it always prints
+				// last, and its inline CSS needs to come after both base
+				// stylesheets to win the cascade for every selector,
+				// including the .trd-modal__* ones only modal.css defines.
+				wp_add_inline_style( 'trd-modal', $css );
+			}
+			$this->inline_css_added = true;
+		}
 	}
 
 	/**
@@ -161,6 +187,8 @@ class Trd_Shortcodes {
 	 * @return string
 	 */
 	public function render_grid( $atts ) {
+		$defaults = Trd_Settings::get_settings();
+
 		$atts = shortcode_atts(
 			array(
 				'mode'           => 'all', // 'all' | 'groups'.
@@ -168,9 +196,12 @@ class Trd_Shortcodes {
 				'exclude'        => '', // comma-separated Team Member post IDs.
 				'sort'           => 'menu_order', // 'menu_order' | 'title_asc' | 'title_desc'.
 				'sections'       => 'no', // 'yes' to render each group as its own labeled section.
-				'columns'        => 3,
-				'columns_tablet' => 2,
-				'columns_mobile' => 1,
+				// Column defaults come from Team Members → Display Settings;
+				// pass columns="" / columns_tablet="" / columns_mobile=""
+				// explicitly on the shortcode to override per instance.
+				'columns'        => $defaults['columns_desktop'],
+				'columns_tablet' => $defaults['columns_tablet'],
+				'columns_mobile' => $defaults['columns_mobile'],
 				'button_label'   => __( 'Read Bio', 'team-roster-for-divi' ),
 				'card_bg'        => '',
 				'card_color'     => '',

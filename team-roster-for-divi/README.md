@@ -16,6 +16,7 @@ A WordPress shortcode sidesteps that entirely: both Divi 4 and Divi 5 ship a **T
 - **`[team_member_card]`** shortcode: reference an existing Team Member by ID (auto-pulling photo/name/title/company/contact/bio), or pass every field manually as attributes for a one-off card that doesn't need a CPT post. Renders a card with a "Read Bio" button that opens an accessible modal. Each Team Member's edit screen has a ready-to-copy `[team_member_card id="…"]` box in the sidebar.
 - **`[team_grid]`** shortcode: automatically renders every Team Member (or a filtered subset) as a responsive grid of cards. Attributes control: all vs. selected groups, excluded people, sort order (manual/name), responsive column counts, an optional "group sections" mode that renders each group as its own labeled sub-grid, and a few card style overrides (background, text color, corner radius).
 - **Bio modal**: vanilla JS (no jQuery dependency), its own scoped CSS (`.trd-modal`), proper `role="dialog"`/`aria-modal`, focus trap, Escape-to-close, click-outside-to-close, and focus restoration to the triggering button on close. Assets are only enqueued when a shortcode actually renders on the current request.
+- **Display Settings** (Team Members → Display Settings): site-wide defaults for the Team Grid's column counts (desktop/tablet/mobile, still overridable per-shortcode) and typography -- font family, size, weight and justification -- for the name heading, group section headings, job title/company line, contact info, and the biography text, each controlled independently.
 - **Getting Started notice**: shown once on Team Member admin screens, dismissible per-user, plus a permanent one-line `[team_grid]` reminder above the Team Members list.
 
 ## Requirements
@@ -39,7 +40,14 @@ A WordPress shortcode sidesteps that entirely: both Divi 4 and Divi 5 ship a **T
 
 On the **Team Members** list, drag rows to reorder (saves automatically). Use **Team Members → Groups** (or the Group panel on each post) to organize people into groups such as Leadership, Sales, Engineering.
 
-### 3. Add the shortcodes to a page
+### 3. Set the default look (optional)
+
+**Team Members → Display Settings** controls, sitewide:
+
+- The Team Grid's default column count for desktop, tablet (≤ 980px) and mobile (≤ 767px) -- a `[team_grid]` shortcode can still override these per-instance with its own `columns` / `columns_tablet` / `columns_mobile` attributes.
+- Font family, size, weight and justification (left/center/right/justify), set independently for: the name heading, group section headings, the job title & company line, contact info, and the biography text shown in the Read Bio modal. Leave any field blank/"Theme default" to inherit your theme's normal styling.
+
+### 4. Add the shortcodes to a page
 
 **In Divi 4:** add a **Text** module (or **Code** module) to your layout and paste the shortcode into its content field.
 
@@ -118,6 +126,7 @@ includes/
   class-trd-activation.php      Activation (flush rewrites) / deactivation
 admin/
   class-trd-admin.php           Getting Started notice, shortcode reminder, notice dismissal
+  class-trd-settings.php        Display Settings page: grid columns + per-field typography, generates the inline CSS
   css/admin.css                 Admin list drag styles, notice styles
   js/admin-reorder.js           jQuery UI Sortable + AJAX save
 assets/

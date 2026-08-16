@@ -43,6 +43,7 @@ require_once TRD_PLUGIN_DIR . 'includes/class-trd-team-grid-render.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-shortcodes.php';
 require_once TRD_PLUGIN_DIR . 'includes/class-trd-activation.php';
 require_once TRD_PLUGIN_DIR . 'admin/class-trd-admin.php';
+require_once TRD_PLUGIN_DIR . 'admin/class-trd-settings.php';
 
 /**
  * Bootstraps every plugin component. Runs on `plugins_loaded` so that
@@ -59,6 +60,7 @@ function trd_bootstrap() {
 	Trd_Reorder::instance();
 	Trd_Shortcodes::instance();
 	Trd_Admin::instance();
+	Trd_Settings::instance();
 }
 add_action( 'plugins_loaded', 'trd_bootstrap' );
 
