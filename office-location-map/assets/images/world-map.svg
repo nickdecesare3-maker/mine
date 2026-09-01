@@ -1,0 +1,12 @@
+<svg class="olm-world-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true" focusable="false">
+	<rect class="olm-sea" x="0" y="0" width="1000" height="500"></rect>
+	<g class="olm-landmasses">
+		<polygon class="olm-land" points="41.7,69.4 111.1,55.6 236.1,55.6 291.7,77.8 347.2,111.1 291.7,180.6 230.6,200.0 180.6,188.9 152.8,138.9 152.8,97.2 125.0,88.9"></polygon>
+		<polygon class="olm-land" points="347.2,83.3 388.9,19.4 444.4,22.2 430.6,55.6 375.0,83.3"></polygon>
+		<polygon class="olm-land" points="286.1,227.8 333.3,227.8 402.8,263.9 388.9,305.6 366.7,319.4 338.9,347.2 311.1,402.8 300.0,300.0 277.8,263.9"></polygon>
+		<polygon class="olm-land" points="472.2,130.6 486.1,150.0 541.7,144.4 577.8,150.0 583.3,125.0 611.1,97.2 611.1,61.1 555.6,52.8 513.9,77.8 486.1,111.1"></polygon>
+		<polygon class="olm-land" points="611.1,111.1 666.7,61.1 777.8,41.7 902.8,61.1 888.9,125.0 838.9,163.9 791.7,222.2 763.9,236.1 713.9,227.8 688.9,183.3 652.8,180.6 597.2,166.7 583.3,125.0"></polygon>
+		<polygon class="olm-land" points="452.8,191.7 486.1,152.8 527.8,147.2 588.9,163.9 619.4,216.7 611.1,319.4 555.6,344.4 533.3,300.0 525.0,236.1"></polygon>
+		<polygon class="olm-land" points="813.9,311.1 861.1,283.3 894.4,280.6 925.0,327.8 880.6,347.2 825.0,347.2"></polygon>
+	</g>
+</svg>

@@ -1,0 +1,141 @@
+/**
+ * Office info modal (opens centered on screen when a marker is hovered,
+ * focused or tapped). Scoped under .olm-modal so it can't clash with
+ * another plugin's or the theme's own dialog styles.
+ */
+
+.olm-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.5em;
+	pointer-events: none;
+}
+
+.olm-modal[hidden] {
+	display: none;
+}
+
+.olm-modal.is-open {
+	pointer-events: auto;
+}
+
+.olm-modal__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba( 0, 0, 0, 0.55 );
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.olm-modal.is-open .olm-modal__overlay {
+	opacity: 1;
+}
+
+.olm-modal__dialog {
+	position: relative;
+	z-index: 1;
+	background: #fff;
+	color: #1e1e1e;
+	width: 100%;
+	max-width: 480px;
+	max-height: 85vh;
+	overflow-y: auto;
+	border-radius: 8px;
+	padding: 2.5em 2em 2em;
+	box-shadow: 0 10px 40px rgba( 0, 0, 0, 0.3 );
+	text-align: center;
+	opacity: 0;
+	transform: scale( 0.96 );
+	transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.olm-modal.is-open .olm-modal__dialog {
+	opacity: 1;
+	transform: scale( 1 );
+}
+
+.olm-modal__dialog:focus {
+	outline: 2px solid #0a63c2;
+	outline-offset: 2px;
+}
+
+.olm-modal__close {
+	position: absolute;
+	top: 0.75em;
+	right: 0.75em;
+	width: 2.2em;
+	height: 2.2em;
+	border: none;
+	border-radius: 50%;
+	background: #f0f0f0;
+	color: #1e1e1e;
+	font-size: 1.3em;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.olm-modal__close:hover,
+.olm-modal__close:focus-visible {
+	background: #ddd;
+}
+
+.olm-modal__image {
+	display: block;
+	width: 96px;
+	height: 96px;
+	object-fit: cover;
+	margin: 0 auto 1em;
+	border-radius: 50%;
+}
+
+.olm-modal__name {
+	margin: 0 0 0.2em;
+}
+
+.olm-modal__address {
+	margin: 0 0 1em;
+	opacity: 0.75;
+}
+
+.olm-modal__description {
+	margin: 0 0 1.2em;
+	line-height: 1.6;
+	text-align: left;
+}
+
+.olm-modal__description img {
+	max-width: 100%;
+	height: auto;
+}
+
+.olm-modal__contact {
+	margin-top: 1.2em;
+	padding-top: 1.2em;
+	border-top: 1px solid #e2e2e2;
+}
+
+.olm-modal__contact p {
+	margin: 0.2em 0;
+}
+
+.olm-modal__contact-name {
+	font-weight: 600;
+}
+
+.olm-modal__contact-title {
+	opacity: 0.75;
+}
+
+.olm-modal__contact-phone a,
+.olm-modal__contact-email a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+body.olm-modal-open {
+	overflow: hidden;
+}

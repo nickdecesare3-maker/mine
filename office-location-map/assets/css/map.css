@@ -1,0 +1,78 @@
+/**
+ * Stylized office map. Scoped under .olm-map-wrap so it can't clash with
+ * another plugin's or the theme's own styles.
+ */
+
+.olm-map-wrap {
+	width: 100%;
+	max-width: 960px;
+	margin: 0 auto;
+}
+
+.olm-map {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 2 / 1;
+	overflow: visible;
+	line-height: 0;
+}
+
+.olm-world-svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.olm-map-wrap .olm-sea {
+	fill: #cfe8f3;
+}
+
+.olm-map-wrap .olm-land {
+	fill: #4b6a72;
+	stroke: #fff;
+	stroke-width: 1px;
+	stroke-linejoin: round;
+}
+
+.olm-marker {
+	position: absolute;
+	transform: translate( -50%, -50% );
+	display: block;
+	width: 32px;
+	height: 32px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.olm-marker__dot {
+	display: block;
+	width: 16px;
+	height: 16px;
+	margin: 8px auto;
+	border-radius: 50%;
+	background-color: #e0483e;
+	box-shadow: 0 0 0 4px rgba( 224, 72, 62, 0.35 );
+	transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.olm-marker:hover .olm-marker__dot,
+.olm-marker:focus-visible .olm-marker__dot,
+.olm-marker.is-active .olm-marker__dot {
+	background-color: #b7362d;
+	box-shadow: 0 0 0 6px rgba( 183, 54, 45, 0.35 );
+	transform: scale( 1.15 );
+}
+
+.olm-marker:focus-visible {
+	outline: none;
+}
+
+.olm-map-placeholder {
+	padding: 1em;
+	border: 1px dashed #c3c4c7;
+	color: #646970;
+}

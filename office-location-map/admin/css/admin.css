@@ -1,0 +1,26 @@
+/**
+ * Office Map Styling settings page.
+ */
+
+.olm-settings-page .form-table th {
+	width: 240px;
+}
+
+.olm-settings-page h2 {
+	margin-top: 2em;
+	padding-top: 1em;
+	border-top: 1px solid #dcdcde;
+}
+
+.olm-settings-page h2:first-of-type {
+	border-top: none;
+	padding-top: 0;
+}
+
+.olm-settings-page h3 {
+	margin-bottom: 0.3em;
+}
+
+.olm-meta-box-table th {
+	width: 200px;
+}
