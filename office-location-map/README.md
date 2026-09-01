@@ -1,10 +1,10 @@
 # Office Location Map
 
-Adds an **Office Location** post type plus an `[office_map]` shortcode that plots offices by latitude/longitude on a fully re-colorable, stylized world map. Hovering (or tapping, for touch/keyboard users) a marker opens a modal centered on screen with that office's name, full address, image, description and contact person details.
+Adds an **Office Location** post type plus an `[office_map]` shortcode that plots offices by latitude/longitude on a fully re-colorable, geographically accurate world map. Hovering (or tapping, for touch/keyboard users) a marker opens a modal centered on screen with that office's name, full address, image, description and contact person details.
 
-## Why a stylized SVG map instead of Google Maps / Mapbox
+## Why an inline SVG map instead of Google Maps / Mapbox
 
-The brief calls for choosing the map's **land, sea and border colors** -- something a raster tile provider (Google Maps, Mapbox, OpenStreetMap tiles) doesn't let you do, since you're displaying someone else's pre-rendered imagery. Instead, the plugin ships its own simplified, low-poly world map as inline SVG (`assets/images/world-map.svg`, equirectangular projection, `viewBox="0 0 1000 500"`). Because it's inlined directly into the page (not loaded via `<img src>`), the site's own CSS -- driven by the admin's color choices -- can style its `fill`/`stroke` directly. Latitude/longitude are converted to an x/y percentage with the standard equirectangular formula (`olm_project_marker_position()`) and each marker is placed with plain CSS `left`/`top`. No API key, no external requests, no JS mapping library, and no build step.
+The brief calls for choosing the map's **land, sea and border colors** -- something a raster tile provider (Google Maps, Mapbox, OpenStreetMap tiles) doesn't let you do, since you're displaying someone else's pre-rendered imagery. Instead, the plugin ships an accurate world map -- real coastlines and individual country borders, not a schematic approximation -- as inline SVG (`assets/images/world-map.svg`, equirectangular projection, `viewBox="0 0 1000 500"`), built from [Natural Earth](https://www.naturalearthdata.com/) 110m admin-0 countries data (public domain, no attribution required; see `build_world_svg.py` below for how it was generated, including antimeridian-safe clipping so Russia/Fiji/the USA don't tear across the map at the ±180° line). Because it's inlined directly into the page (not loaded via `<img src>`), the site's own CSS -- driven by the admin's color choices -- can style its `fill`/`stroke` directly, per country. Latitude/longitude are converted to an x/y percentage with the standard equirectangular formula (`olm_project_marker_position()`) and each marker is placed with plain CSS `left`/`top`, aligned to the same projection the map itself uses. No API key, no external requests, no JS mapping library, and no build step for the plugin itself.
 
 ## Features
 
@@ -72,7 +72,9 @@ assets/
   css/map.css                   Map container + marker layout
   css/modal.css                 Info modal styles
   js/map.js                     Marker hover/focus/click → modal behavior (vanilla JS, no jQuery)
-  images/world-map.svg          Bundled stylized world map (equirectangular, low-poly), inlined at render time
+  images/world-map.svg          Bundled accurate world map (Natural Earth 110m countries, equirectangular), inlined at render time
+bin/
+  build_world_svg.py            Regenerates assets/images/world-map.svg from a Natural Earth countries GeoJSON (not run at plugin runtime; see below)
 languages/                      Text domain: office-location-map
 ```
 
@@ -88,4 +90,12 @@ wp i18n make-pot . languages/office-location-map.pot
 
 - Every function, class, hook, option, meta key and AJAX action is prefixed `olm_`/`Olm_` to avoid collisions.
 - All output is escaped (`esc_html`, `esc_attr`, `esc_url`, `wp_kses_post` for the rich-text description); all input is sanitized on save (`sanitize_text_field`, `sanitize_email`, `sanitize_hex_color`) and nonce-checked.
-- No build step and no external PHP or JS dependencies.
+- No build step and no external PHP or JS dependencies for the plugin itself.
+
+## Regenerating the world map
+
+`assets/images/world-map.svg` is pre-built and checked in -- WordPress never needs to regenerate it. If you want to swap in a different resolution (Natural Earth also publishes 50m/10m for more coastline detail) or re-run the build after an upstream data update, `bin/build_world_svg.py` (stdlib-only Python 3, no pip packages) is the generator:
+
+1. Download a Natural Earth admin-0 countries GeoJSON, e.g. `ne_110m_admin_0_countries.geojson` from the [Natural Earth Vector](https://github.com/nvkelso/natural-earth-vector) repo's `geojson/` folder (public domain), and save it alongside the script as `ne_110m_countries.geojson`.
+2. Run `python3 bin/build_world_svg.py` from that folder. It projects every country (equirectangular, matching `olm_project_marker_position()` exactly), clips/splits any country crossing the ±180° antimeridian (Russia, Fiji, the USA, ...) so it doesn't tear across the map, and writes `world-map.svg` with one `<path class="olm-land">` per country piece plus a `<title>` for its name.
+3. Copy the output over `assets/images/world-map.svg`.
