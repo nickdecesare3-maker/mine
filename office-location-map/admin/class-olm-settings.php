@@ -359,7 +359,7 @@ class Olm_Settings {
 				</table>
 
 				<h2><?php esc_html_e( 'Info Modal', 'office-location-map' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'The popup that opens in the center of the screen when a marker is hovered or tapped.', 'office-location-map' ); ?></p>
+				<p class="description"><?php esc_html_e( 'The popup that opens in the center of the screen when a marker is clicked or tapped.', 'office-location-map' ); ?></p>
 				<table class="form-table" role="presentation">
 					<tbody>
 						<tr>

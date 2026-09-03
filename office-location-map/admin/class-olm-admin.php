@@ -71,7 +71,7 @@ class Olm_Admin {
 					<?php
 					printf(
 						/* translators: %s: [office_map] shortcode, shown as inline code. */
-						esc_html__( 'Paste the %s shortcode into any post, page or widget to show every office on the map -- hovering (or tapping) a marker opens its info modal centered on screen.', 'office-location-map' ),
+						esc_html__( 'Paste the %s shortcode into any post, page or widget to show every office on the map -- clicking (or tapping) a marker opens its info modal centered on screen.', 'office-location-map' ),
 						'<code>[office_map]</code>'
 					);
 					?>

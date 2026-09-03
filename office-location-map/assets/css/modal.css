@@ -1,7 +1,7 @@
 /**
- * Office info modal (opens centered on screen when a marker is hovered,
- * focused or tapped). Scoped under .olm-modal so it can't clash with
- * another plugin's or the theme's own dialog styles.
+ * Office info modal (opens centered on screen when a marker is clicked
+ * or tapped). Scoped under .olm-modal so it can't clash with another
+ * plugin's or the theme's own dialog styles.
  */
 
 .olm-modal {

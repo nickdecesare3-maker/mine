@@ -6,10 +6,9 @@
  * added after this script runs. Scoped entirely to `.olm-marker` /
  * `.olm-modal` markup so it can't collide with any other plugin's modals.
  *
- * Opens on hover (mouseenter) or keyboard focus, per spec. A click/tap
- * "pins" the modal open (since touch devices don't have real hover) until
- * it's explicitly closed via the close button, the overlay, Escape, or by
- * opening a different marker.
+ * Click/tap a marker to open its modal; a native <button> also picks up
+ * Enter/Space activation for free. Close via the close button, the
+ * overlay, Escape, or by opening a different marker.
  *
  * @package OfficeLocationMap
  */
@@ -23,13 +22,9 @@
 
 	var FOCUSABLE_SELECTOR =
 		'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
-	var CLOSE_DELAY = 200;
 
 	var activeModal = null;
-	var activeMarker = null;
 	var lastFocused = null;
-	var pinned = false;
-	var closeTimer = null;
 
 	/**
 	 * @param {string} id Modal element id.
@@ -47,35 +42,17 @@
 		return Array.prototype.slice.call( modal.querySelectorAll( FOCUSABLE_SELECTOR ) );
 	}
 
-	function cancelScheduledClose() {
-		if ( closeTimer ) {
-			window.clearTimeout( closeTimer );
-			closeTimer = null;
-		}
-	}
-
 	/**
 	 * @param {HTMLElement} modal
-	 * @param {HTMLElement} marker  Marker button that owns this modal.
 	 * @param {HTMLElement} trigger Element that opened the modal (for focus restore).
-	 * @param {boolean}     pin     Whether this open should ignore hover-out auto-close.
 	 */
-	function openModal( modal, marker, trigger, pin ) {
-		cancelScheduledClose();
-
-		if ( activeModal && activeModal !== modal ) {
+	function openModal( modal, trigger ) {
+		if ( activeModal ) {
 			closeModal( activeModal );
-		}
-
-		if ( activeModal === modal ) {
-			pinned = pinned || pin;
-			return;
 		}
 
 		lastFocused = trigger || document.activeElement;
 		activeModal = modal;
-		activeMarker = marker;
-		pinned = !! pin;
 
 		modal.hidden = false;
 		// Force layout before adding the class so the CSS transition runs.
@@ -84,8 +61,14 @@
 		modal.classList.add( 'is-open' );
 		document.body.classList.add( 'olm-modal-open' );
 
+		var marker = document.querySelector( '[data-olm-marker-for="' + modal.id + '"]' );
 		if ( marker ) {
 			marker.classList.add( 'is-active' );
+		}
+
+		var dialog = modal.querySelector( '.olm-modal__dialog' );
+		if ( dialog ) {
+			dialog.focus();
 		}
 
 		document.addEventListener( 'keydown', onKeydown, true );
@@ -95,8 +78,6 @@
 	 * @param {HTMLElement} modal
 	 */
 	function closeModal( modal ) {
-		cancelScheduledClose();
-
 		modal.classList.remove( 'is-open' );
 		modal.hidden = true;
 		document.body.classList.remove( 'olm-modal-open' );
@@ -109,32 +90,12 @@
 
 		if ( activeModal === modal ) {
 			activeModal = null;
-			activeMarker = null;
-			pinned = false;
 		}
 
 		if ( lastFocused && typeof lastFocused.focus === 'function' && document.body.contains( lastFocused ) ) {
 			lastFocused.focus();
 		}
 		lastFocused = null;
-	}
-
-	/**
-	 * Close the active modal after a short delay, unless the pointer/focus
-	 * has moved onto its marker or the modal itself in the meantime, or the
-	 * modal was pinned open by a click/tap.
-	 */
-	function scheduleClose() {
-		if ( ! activeModal || pinned ) {
-			return;
-		}
-
-		cancelScheduledClose();
-		closeTimer = window.setTimeout( function () {
-			if ( activeModal ) {
-				closeModal( activeModal );
-			}
-		}, CLOSE_DELAY );
 	}
 
 	/**
@@ -174,85 +135,18 @@
 		}
 	}
 
-	function openFromMarker( marker, pin ) {
-		var modal = getModal( marker.getAttribute( 'data-olm-marker-for' ) );
-		if ( modal ) {
-			openModal( modal, marker, marker, pin );
-		}
-	}
-
-	document.addEventListener(
-		'mouseover',
-		function ( event ) {
-			var marker = event.target.closest( '.olm-marker' );
-			if ( marker ) {
-				openFromMarker( marker, false );
-				return;
-			}
-
-			if ( event.target.closest( '.olm-modal__dialog' ) ) {
-				cancelScheduledClose();
-			}
-		},
-		true
-	);
-
-	document.addEventListener(
-		'mouseout',
-		function ( event ) {
-			var leavingMarker = event.target.closest( '.olm-marker' );
-			var leavingDialog = event.target.closest( '.olm-modal__dialog' );
-
-			if ( ! leavingMarker && ! leavingDialog ) {
-				return;
-			}
-
-			var related = event.relatedTarget;
-			var stillInside =
-				related &&
-				( related.closest && ( related.closest( '.olm-marker' ) === activeMarker || related.closest( '.olm-modal__dialog' ) ) );
-
-			if ( ! stillInside ) {
-				scheduleClose();
-			}
-		},
-		true
-	);
-
-	document.addEventListener( 'focusin', function ( event ) {
-		var marker = event.target.closest( '.olm-marker' );
-		if ( marker ) {
-			openFromMarker( marker, false );
-			return;
-		}
-
-		if ( event.target.closest( '.olm-modal__dialog' ) ) {
-			cancelScheduledClose();
-		}
-	} );
-
-	document.addEventListener( 'focusout', function ( event ) {
-		var leavingMarker = event.target.closest( '.olm-marker' );
-		var leavingDialog = event.target.closest( '.olm-modal__dialog' );
-
-		if ( ! leavingMarker && ! leavingDialog ) {
-			return;
-		}
-
-		window.setTimeout( function () {
-			var focused = document.activeElement;
-			var stillInside = focused && focused.closest && ( focused.closest( '.olm-marker' ) === activeMarker || focused.closest( '.olm-modal__dialog' ) );
-			if ( ! stillInside ) {
-				scheduleClose();
-			}
-		}, 0 );
-	} );
-
 	document.addEventListener( 'click', function ( event ) {
 		var marker = event.target.closest( '.olm-marker' );
 		if ( marker ) {
 			event.preventDefault();
-			openFromMarker( marker, true );
+			var modal = getModal( marker.getAttribute( 'data-olm-marker-for' ) );
+			if ( modal ) {
+				if ( activeModal === modal ) {
+					closeModal( modal );
+				} else {
+					openModal( modal, marker );
+				}
+			}
 			return;
 		}
 

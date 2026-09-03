@@ -1,6 +1,6 @@
 # Office Location Map
 
-Adds an **Office Location** post type plus an `[office_map]` shortcode that plots offices by latitude/longitude on a fully re-colorable, geographically accurate world map. Hovering (or tapping, for touch/keyboard users) a marker opens a modal centered on screen with that office's name, full address, image, description and contact person details.
+Adds an **Office Location** post type plus an `[office_map]` shortcode that plots offices by latitude/longitude on a fully re-colorable, geographically accurate world map. Clicking (or tapping) a marker opens a modal centered on screen with that office's name, full address, image, description and contact person details.
 
 ## Why an inline SVG map instead of Google Maps / Mapbox
 
@@ -10,7 +10,7 @@ The brief calls for choosing the map's **land, sea and border colors** -- someth
 
 - **Office Location** custom post type (`olm_office`): title (office name), featured image, content editor (description, WYSIWYG with images), plus a meta box for latitude/longitude and another for full address, contact person name, title, phone and email. Each office's edit screen has a ready-to-copy `[office_map ids="…"]` box in the sidebar for embedding just that one office.
 - **`[office_map]`** shortcode: plots every published office (or a specific `ids="1,2,3"` subset) on the map.
-- **Hover-to-open info modal**: mouseenter (or keyboard focus, for accessibility) on a marker opens a centered modal; moving off the marker (and not onto the modal) closes it again after a short delay. A click/tap "pins" the modal open -- needed since touch devices don't have real hover -- until it's closed via its close button, the overlay, Escape, or by opening a different marker. Proper `role="dialog"`/`aria-modal`, a focus trap, and focus restoration to the marker on close.
+- **Click-to-open info modal**: clicking or tapping a marker opens a centered modal (a native `<button>`, so Enter/Space activates it too); clicking the same marker again, its close button, the overlay, Escape, or a different marker all close it. Proper `role="dialog"`/`aria-modal`, a focus trap, and focus restoration to the marker on close.
 - **Map & Field Styling** admin page (Office Map → Map & Field Styling): color pickers for land, sea, border, marker and marker-hover colors, plus border width, marker size and the map's max width; modal background color, corner radius, max width, and image size/roundness; and independent font family, size, weight and color for every field shown in the modal -- office name, full address, description, contact person name, contact person title, contact person phone, and contact person email.
 - **Getting Started notice**: shown once on Office Location admin screens, dismissible per-user, plus a permanent one-line `[office_map]` reminder above the Office Locations list.
 
@@ -71,7 +71,7 @@ admin/
 assets/
   css/map.css                   Map container + marker layout
   css/modal.css                 Info modal styles
-  js/map.js                     Marker hover/focus/click → modal behavior (vanilla JS, no jQuery)
+  js/map.js                     Marker click → modal behavior (vanilla JS, no jQuery)
   images/world-map.svg          Bundled accurate world map (Natural Earth 110m countries, equirectangular), inlined at render time
 bin/
   build_world_svg.py            Regenerates assets/images/world-map.svg from a Natural Earth countries GeoJSON (not run at plugin runtime; see below)

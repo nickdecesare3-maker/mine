@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Office Location Map
  * Plugin URI:        https://github.com/nickdecesare3-maker/mine
- * Description:       Adds an "Office Location" post type plus an [office_map] shortcode that plots offices by latitude/longitude on a fully re-colorable stylized map. Hovering (or tapping) a marker opens a centered modal with the office's name, address, photo, description and contact details.
+ * Description:       Adds an "Office Location" post type plus an [office_map] shortcode that plots offices by latitude/longitude on a fully re-colorable stylized map. Clicking (or tapping) a marker opens a centered modal with the office's name, address, photo, description and contact details.
  * Version:           1.0.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
