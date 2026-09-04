@@ -3,7 +3,7 @@
  * Plugin Name:       Office Location Map
  * Plugin URI:        https://github.com/nickdecesare3-maker/mine
  * Description:       Adds an "Office Location" post type plus an [office_map] shortcode that plots offices by latitude/longitude on a fully re-colorable stylized map. Clicking (or tapping) a marker opens a centered modal with the office's name, address, photo, description and contact details.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Office Location Map
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Basic plugin constants. All constants, hooks, functions and classes are
 // prefixed with OLM / olm_ to avoid collisions with other plugins/themes.
-define( 'OLM_VERSION', '1.0.0' );
+define( 'OLM_VERSION', '1.0.2' );
 define( 'OLM_PLUGIN_FILE', __FILE__ );
 define( 'OLM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'OLM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
